@@ -32,19 +32,22 @@ public class GroundMover : MonoBehaviour
         if (_nextLocation == null)
         {
             int randomIndex = Random.Range(0, _locations.Count);
-            if (_currentLocation != _locations[randomIndex])
+            _nextLocation = _locations[randomIndex];
+            if (_currentLocation != _nextLocation)
             {
-                _nextLocation = _locations[randomIndex];
                 _nextLocation.gameObject.SetActive(true);
                 _nextLocation.position = _nextPosition;
             }
+            else
+            {
+                _nextLocation = null;
+            }
+            Debug.Log(_nextLocation + " " + randomIndex);
         }
-        
-        if(_currentLocation.position != _endPosition)
+        else if(_currentLocation.position != _endPosition && _nextLocation != null)
         {
             _currentLocation.position = Vector3.MoveTowards(_currentLocation.position, _endPosition, _speed * Time.deltaTime);
             _nextLocation.position = Vector3.MoveTowards(_nextLocation.position, _startPosition, _speed * Time.deltaTime);
-            Debug.Log(_currentLocation + " " + _nextLocation);
         }
         else
         {
